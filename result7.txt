@@ -1,0 +1,58 @@
+
+> mytest@1.0.0 start /home/brent/src/webservice/PlexWebServices
+> node test
+
+http://BuscheAlbionWs2@plex.com:6afff48-ba19-@https://api.plexonline.com/DataSource/Service.asmx
+1st callback
+{ 'xmlns:soap': 'http://schemas.xmlsoap.org/soap/envelope/',
+  'xmlns:xsi': 'http://www.w3.org/2001/XMLSchema-instance',
+  'xmlns:xsd': 'http://www.w3.org/2001/XMLSchema' }
+{ 'xmlns:soap': 'http://schemas.xmlsoap.org/soap/envelope/',
+  'xmlns:xsi': 'http://www.w3.org/2001/XMLSchema-instance',
+  'xmlns:xsd': 'http://www.w3.org/2001/XMLSchema' }
+http://schemas.xmlsoap.org/soap/envelope/
+{ ExecuteDataSourceResponse:
+   { '$': { xmlns: 'http://www.plexus-online.com/DataSource' },
+     ExecuteDataSourceResult:
+      { StatusNo: '0',
+        Error: 'false',
+        ErrorNo: '0',
+        Message: 'Success',
+        InstanceNo: '103486',
+        DataSourceKey: '37686',
+        QuarantinedForDevelopment: 'false',
+        LastPrimaryDeployment: [Object],
+        LastTestDeployment: [Object],
+        Version: [Object],
+        DataSourceName: 'Production_Status_Summary_Job_Get',
+        ResultSets: [Object] } } }
+{ ExecuteDataSourceResponse:
+   { '$': { xmlns: 'http://www.plexus-online.com/DataSource' },
+     ExecuteDataSourceResult:
+      { StatusNo: '0',
+        Error: 'false',
+        ErrorNo: '0',
+        Message: 'Success',
+        InstanceNo: '103486',
+        DataSourceKey: '37686',
+        QuarantinedForDevelopment: 'false',
+        LastPrimaryDeployment: [Object],
+        LastTestDeployment: [Object],
+        Version: [Object],
+        DataSourceName: 'Production_Status_Summary_Job_Get',
+        ResultSets: [Object] } } }
+{ '$': { xmlns: 'http://www.plexus-online.com/DataSource' },
+  ExecuteDataSourceResult:
+   { StatusNo: '0',
+     Error: 'false',
+     ErrorNo: '0',
+     Message: 'Success',
+     InstanceNo: '103486',
+     DataSourceKey: '37686',
+     QuarantinedForDevelopment: 'false',
+     LastPrimaryDeployment: { '$': [Object] },
+     LastTestDeployment: { '$': [Object] },
+     Version: { '$': [Object] },
+     DataSourceName: 'Production_Status_Summary_Job_Get',
+     ResultSets: { ResultSet: [Object] } } }
+E 200 OK

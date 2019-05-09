@@ -1,0 +1,36 @@
+
+> mytest@1.0.0 start /home/brent/src/webservice/PlexWebServices
+> node test
+
+http://BuscheAlbionWs2@plex.com:6afff48-ba19-@https://api.plexonline.com/DataSource/Service.asmx
+1st callback
+{ 'xmlns:soap': 'http://schemas.xmlsoap.org/soap/envelope/',
+  'xmlns:xsi': 'http://www.w3.org/2001/XMLSchema-instance',
+  'xmlns:xsd': 'http://www.w3.org/2001/XMLSchema' }
+{ '$': { xmlns: 'http://www.plexus-online.com/DataSource' },
+  ExecuteDataSourceResult:
+   { StatusNo: '0',
+     Error: 'false',
+     ErrorNo: '0',
+     Message: 'Success',
+     InstanceNo: '103492',
+     DataSourceKey: '37686',
+     QuarantinedForDevelopment: 'false',
+     LastPrimaryDeployment: { '$': [Object] },
+     LastTestDeployment: { '$': [Object] },
+     Version: { '$': [Object] },
+     DataSourceName: 'Production_Status_Summary_Job_Get',
+     ResultSets: { ResultSet: [Object] } } }
+{ StatusNo: '0',
+  Error: 'false',
+  ErrorNo: '0',
+  Message: 'Success',
+  InstanceNo: '103492',
+  DataSourceKey: '37686',
+  QuarantinedForDevelopment: 'false',
+  LastPrimaryDeployment: { '$': { 'xsi:nil': 'true' } },
+  LastTestDeployment: { '$': { 'xsi:nil': 'true' } },
+  Version: { '$': { 'xsi:nil': 'true' } },
+  DataSourceName: 'Production_Status_Summary_Job_Get',
+  ResultSets: { ResultSet: { RowCount: '177', Rows: [Object] } } }
+E 200 OK

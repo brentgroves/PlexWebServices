@@ -62,7 +62,18 @@ let callback = (error, response, body) => {
     var xml2js = require('xml2js');
     var parser = new xml2js.Parser({explicitArray: false, trim: true});
     parser.parseString(body, (err, result) => {
-	console.log(util.inspect(result, false, null));	
+		var env = result['soap:Envelope'];
+		var table = result['soap:Envelope']['soap:Body']['ExecuteDataSourceResponse']['ExecuteDataSourceResult']['ResultSets']['ResultSet']['Rows']['Row'];
+
+//		console.log(util.inspect(header, false, null));
+		console.log(table[1]['Columns']['Column']);  // record1
+		console.log(table[2]['Columns']['Column']);  // record2
+		/*
+		arr.forEach(function (item) {
+		  console.log(item);
+		})
+*/
+//		console.log(soapBody8);
      // console.log('JSON result', result);
     });
   };
