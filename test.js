@@ -1,5 +1,7 @@
 var request = require('request');
 var util = require('util');
+var sql = require('mssql');
+
 let xml =
 `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:dat="http://www.plexus-online.com/DataSource">
    <soapenv:Header/>
@@ -80,47 +82,71 @@ let callback = (error, response, body) => {
   console.log('E', response.statusCode, response.statusMessage);  
 };
 //console.log(util.inspect(result, false, null)),
-/*
-var parseString = require('xml2js').parseString;
-var xml = '<?xml version="1.0" encoding="UTF-8" ?><business><company>Code Blog</company><owner>Nic Raboy</owner><employee><firstname>Nic</firstname><lastname>Raboy</lastname></employee><employee><firstname>Maria</firstname><lastname>Campos</lastname></employee></business>';
-parseString(xml, function (err, result) {
-    console.dir(JSON.stringify(result));
-});
-*/
-request(options, callback);
-/*
-request(options, function (error, response, body) {
-  if (error) throw new Error(error);
+//request(options, callback);
+//
 
-  console.log(body);
-});
+const cribDefTO = {
+ user: 'sa',
+  password: 'buschecnc1',
+//  server: '192.168.254.36', // You can use 'localhost\\instance' to connect to named instance
+  server: '10.1.2.17',//   server: 'busche-sql-1', // You can use 'localhost\\instance' to connect to named instance
+  options: {
+    database: 'Cribmaster',
+    port: 1433 // Use this if you're on Windows Azure
+     // ,instanceName: 'SQLEXPRESS'
+  }
+}
 
-var options = {
-	url: url,
-  	method: 'POST',
-  	body: xml,
- 	 headers: {
- 	   'Content-Type':'text/xml;charset=utf-8',
- 	   'Accept-Encoding': 'gzip,deflate',
- 	   'Content-Length':xml.length,
- 	   'SOAPAction':"http://www.plexus-online.com/DataSource/ExecuteDataSource"
- 	 }
+var config = {
+	user:'sa',
+	password: 'buschecnc1',
+	server: '10.1.2.17',
+	database: 'Cribmaster'
 };
 
+// promise style:
+const pool = new sql.ConnectionPool(config);
+const poolConnect = pool.connect();
 
+pool.on('error', err => {
+    console.log(err); // ... error handler
+});
 
-let callback = (error, response, body) => {
-	console.log('1st callback');
-  if (!error && response.statusCode == 200) {
-    console.log('Raw result', body);
-    var xml2js = require('xml2js');
-    var parser = new xml2js.Parser({explicitArray: false, trim: true});
-    parser.parseString(body, (err, result) => {
-      console.log('JSON result', result);
-    });
-  };
-  console.log('E', response.statusCode, response.statusMessage);  
-};
+const table = new sql.Table('btProductionStatusSummary');
+table.create = true;
+table.columns.add('Workcenter_Key',sql.VarChar(50),{nullable: true});
+table.columns.add('Workcenter_Code', sql.VarChar(50), {nullable: true});
+table.columns.add('Part_No', sql.VarChar(50), {nullable: true});
+table.rows.add('Key','Code','Part_No');
 
-request(options, callback);
+poolConnect.then((pool) => {
+	pool.request() // or: new sql.Request(pool)
+	.bulk(table, (err, result) => {
+		console.log('Add complete');
+		console.dir(err);
+	});
+	/*
+	.query('select top 10 itemnumber,description1 from inventry',(err,result)=>{
+		console.dir(result);
+	});
+	*/
+}).catch(err => {
+	console.log(`${err}`);
+});
+
+console.log('Before connection');
+/*
+sql.connect(config,function(err){
+	if(err) console.log(err);
+
+	var request = new sql.Request();
+
+	request.query('select top 10 itemnumber,description1,description2 from inventry',function(err,recordset){
+		if(err) console.log(err)
+		console.log('made it');
+		console.log(recordset);
+		// send records as a response
+	});
+});
 */
+console.log('End of script');
