@@ -1,6 +1,9 @@
 var request = require('request');
 var util = require('util');
 var sql = require('mssql');
+var xml2js = require('xml2js');
+
+var parser = new xml2js.Parser({explicitArray: false, trim: true});
 
 let xml =
 `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:dat="http://www.plexus-online.com/DataSource">
@@ -58,44 +61,25 @@ var options = { method: 'POST',
 
 
 let callback = (error, response, body) => {
-	console.log('1st callback');
   if (!error && response.statusCode == 200) {
-//    console.log('Raw result', body);
-    var xml2js = require('xml2js');
-    var parser = new xml2js.Parser({explicitArray: false, trim: true});
     parser.parseString(body, (err, result) => {
 		var env = result['soap:Envelope'];
 		var table = result['soap:Envelope']['soap:Body']['ExecuteDataSourceResponse']['ExecuteDataSourceResult']['ResultSets']['ResultSet']['Rows']['Row'];
 
-//		console.log(util.inspect(header, false, null));
-		console.log(table[1]['Columns']['Column']);  // record1
+		console.log(table[1]['Columns']['Column'][0]['Value']);  // record1
 		console.log(table[2]['Columns']['Column']);  // record2
 		/*
 		arr.forEach(function (item) {
 		  console.log(item);
 		})
 */
-//		console.log(soapBody8);
-     // console.log('JSON result', result);
     });
   };
-  console.log('E', response.statusCode, response.statusMessage);  
+//  console.log('E', response.statusCode, response.statusMessage);  
 };
-//console.log(util.inspect(result, false, null)),
-//request(options, callback);
+request(options, callback);
 //
 
-const cribDefTO = {
- user: 'sa',
-  password: 'buschecnc1',
-//  server: '192.168.254.36', // You can use 'localhost\\instance' to connect to named instance
-  server: '10.1.2.17',//   server: 'busche-sql-1', // You can use 'localhost\\instance' to connect to named instance
-  options: {
-    database: 'Cribmaster',
-    port: 1433 // Use this if you're on Windows Azure
-     // ,instanceName: 'SQLEXPRESS'
-  }
-}
 
 var config = {
 	user:'sa',
@@ -114,10 +98,10 @@ pool.on('error', err => {
 
 const table = new sql.Table('btProductionStatusSummary');
 table.create = true;
-table.columns.add('Workcenter_Key',sql.VarChar(50),{nullable: true});
+table.columns.add('Workcenter_Key',sql.Int,{nullable: true});
 table.columns.add('Workcenter_Code', sql.VarChar(50), {nullable: true});
-table.columns.add('Part_No', sql.VarChar(50), {nullable: true});
-table.rows.add('Key','Code','Part_No');
+table.columns.add('Part_No', sql.VarChar(100), {nullable: true});
+table.rows.add(100,'Workcenter_Code','Part_No');
 
 poolConnect.then((pool) => {
 	pool.request() // or: new sql.Request(pool)
@@ -134,19 +118,3 @@ poolConnect.then((pool) => {
 	console.log(`${err}`);
 });
 
-console.log('Before connection');
-/*
-sql.connect(config,function(err){
-	if(err) console.log(err);
-
-	var request = new sql.Request();
-
-	request.query('select top 10 itemnumber,description1,description2 from inventry',function(err,recordset){
-		if(err) console.log(err)
-		console.log('made it');
-		console.log(recordset);
-		// send records as a response
-	});
-});
-*/
-console.log('End of script');
