@@ -60,14 +60,40 @@ var options = { method: 'POST',
   body: '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:dat="http://www.plexus-online.com/DataSource">\n   <soapenv:Header/>\n   <soapenv:Body>\n      <dat:ExecuteDataSource>\n         <!--Optional:-->\n         <dat:ExecuteDataSourceRequest>\n            <!--Optional:-->\n            <dat:DataSourceKey>37686</dat:DataSourceKey>\n            <!--Optional:-->\n            <dat:InputParameters>\n               <!--Zero or more repetitions:-->\n               <dat:InputParameter>\n                  <!--Optional:-->\n                  <dat:Value>1</dat:Value>\n                  <!--Optional:-->\n                  <dat:Name>Include_Non_Scheduled</dat:Name>\n                  <dat:Required>false</dat:Required>\n                  <dat:Output>false</dat:Output>\n                  <!--Optional:-->\n                  <dat:DefaultValue>?</dat:DefaultValue>\n                  <!--Optional:-->\n                  <dat:Message>?</dat:Message>\n               </dat:InputParameter>\n            </dat:InputParameters>\n            <!--Optional:-->\n            <dat:DataSourceName>?</dat:DataSourceName>\n            <!--Optional:-->\n            <dat:DataBase>?</dat:DataBase>\n         </dat:ExecuteDataSourceRequest>\n      </dat:ExecuteDataSource>\n   </soapenv:Body>\n</soapenv:Envelope>' };
 
 
+let insert = (workcenterKey) => {
+	console.log(`inside insert ${workcenterKey}`);
+	
+	const table = new sql.Table('btProductionStatusSummary');
+	table.create = true;
+	table.columns.add('Workcenter_Key',sql.Int,{nullable: true});
+	table.columns.add('Workcenter_Code', sql.VarChar(50), {nullable: true});
+	table.columns.add('Part_No', sql.VarChar(100), {nullable: true});
+	table.rows.add('12345','Workcenter_Code','Part_No');
+	
+	poolConnect.then((pool) => {
+		pool.request() // or: new sql.Request(pool)
+		.bulk(table, (err, result) => {
+			console.log('Add complete');
+		});
+		/*
+		.query('select top 10 itemnumber,description1 from inventry',(err,result)=>{
+			console.dir(result);
+		});
+		*/
+	}).catch(err => {
+		console.log(`${err}`);
+	});
+};
+
 let callback = (error, response, body) => {
   if (!error && response.statusCode == 200) {
     parser.parseString(body, (err, result) => {
 		var env = result['soap:Envelope'];
 		var table = result['soap:Envelope']['soap:Body']['ExecuteDataSourceResponse']['ExecuteDataSourceResult']['ResultSets']['ResultSet']['Rows']['Row'];
 
-		console.log(table[1]['Columns']['Column'][0]['Value']);  // record1
+		const workcenterKey = console.log(table[1]['Columns']['Column'][0]['Value']);  // record1
 		console.log(table[2]['Columns']['Column']);  // record2
+		insert(workcenterKey);
 		/*
 		arr.forEach(function (item) {
 		  console.log(item);
@@ -96,25 +122,5 @@ pool.on('error', err => {
     console.log(err); // ... error handler
 });
 
-const table = new sql.Table('btProductionStatusSummary');
-table.create = true;
-table.columns.add('Workcenter_Key',sql.Int,{nullable: true});
-table.columns.add('Workcenter_Code', sql.VarChar(50), {nullable: true});
-table.columns.add('Part_No', sql.VarChar(100), {nullable: true});
-table.rows.add(100,'Workcenter_Code','Part_No');
 
-poolConnect.then((pool) => {
-	pool.request() // or: new sql.Request(pool)
-	.bulk(table, (err, result) => {
-		console.log('Add complete');
-		console.dir(err);
-	});
-	/*
-	.query('select top 10 itemnumber,description1 from inventry',(err,result)=>{
-		console.dir(result);
-	});
-	*/
-}).catch(err => {
-	console.log(`${err}`);
-});
 

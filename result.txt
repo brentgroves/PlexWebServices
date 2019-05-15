@@ -3,33 +3,31 @@
 > node test
 
 http://BuscheAlbionWs2@plex.com:6afff48-ba19-@https://api.plexonline.com/DataSource/Service.asmx
-Add complete
-null
 60910
 [ { Value: '60978', Name: 'Workcenter_Key' },
   { Value: 'Bearing Housing Opp. 10 20 CNC 213 186 433',
     Name: 'Workcenter_Code' },
-  { Value: '5548347 Rev00', Name: 'Part_No' },
+  { Value: '5355549 Rev03', Name: 'Part_No' },
   { Value: 'CNC', Name: 'Workcenter_Type' },
   { Value: 'Production', Name: 'Status' },
   { Value: '', Name: 'Event' },
   { Value: '#BBFFBB', Name: 'Color' },
-  { Value: '5/14/2019 3:00:00 PM', Name: 'Update_Date' },
+  { Value: '5/15/2019 3:03:00 PM', Name: 'Update_Date' },
   { Value: '4000', Name: 'Scheduled' },
-  { Value: '1234', Name: 'Balance' },
+  { Value: '2516', Name: 'Balance' },
   { Value: '0', Name: 'Log_Hours' },
-  { Value: '478490322', Name: 'Log_Key' },
+  { Value: '478700555', Name: 'Log_Key' },
   { Value: '', Name: 'Production_Status_Note' },
   { Value: '-1', Name: 'Timeblock_Key' },
-  { Value: '2766', Name: 'Produced' },
-  { Value: '60', Name: 'Produced_Today' },
-  { Value: '114', Name: 'Produced_Yesterday' },
-  { Value: '73', Name: 'Job_No' },
-  { Value: '33326821', Name: 'Setup_Key' },
-  { Value: '27242775', Name: 'Job_Op_Key' },
+  { Value: '1484', Name: 'Produced' },
+  { Value: '33', Name: 'Produced_Today' },
+  { Value: '0', Name: 'Produced_Yesterday' },
+  { Value: '75', Name: 'Job_No' },
+  { Value: '33569640', Name: 'Setup_Key' },
+  { Value: '27242786', Name: 'Job_Op_Key' },
   { Value: 'Bearing Housing 30 CNC 49 35',
     Name: 'Default_Production_Location' },
-  { Value: '7867974', Name: 'Previous_Operation' },
+  { Value: '7862915', Name: 'Previous_Operation' },
   { Value: '', Name: 'Bulletin' },
   { Value: '219', Name: 'Workcenter_Status_Key' },
   { Value: '', Name: 'Workcenter_Event_Key' },
@@ -40,3 +38,5 @@ null
   { Value: '', Name: 'Building_Bulletin' },
   { Value: '0', Name: 'Scrap' },
   { Value: '0', Name: 'Production_Scrap_Percent' } ]
+inside insert undefined
+Add complete
