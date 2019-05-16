@@ -5,6 +5,7 @@
   "main": "test.js",
   "scripts": {
     "start": "node test",
+    "icg": "node test_icg",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
